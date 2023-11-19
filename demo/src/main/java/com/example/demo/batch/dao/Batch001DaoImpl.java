@@ -18,7 +18,7 @@ public class Batch001DaoImpl implements Batch001Dao{
     @Override
     public List<Batch001Vo> findAll() {
 
-        List<Batch001Vo> resutList = sqlSession.selectList("com.example.demo.batch.mapper.Batch001Mapper.findAll");
+        List<Batch001Vo> resutList = sqlSession.selectList("findAll");
 
         return resutList;
     }

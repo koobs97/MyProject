@@ -15,7 +15,7 @@ import com.zaxxer.hikari.HikariDataSource;
  * 다중 DB 연결 기능을 구현하기 위해서는 HikariCP를 사용해야 한다. 
  */
 @Configuration
-public class MulDatasourceConfig {
+public class DbMulHikariConfig {
     
     @Bean
     @Primary

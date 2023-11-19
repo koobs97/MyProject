@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
-<mapper namespace="com.example.demo.batch.mapper.Batch001Mapper">
+<mapper namespace="Batch001Mapper">
     
     <select id = "findAll" resultType="com.example.demo.batch.vo.Batch001Vo">
         SELECT ID

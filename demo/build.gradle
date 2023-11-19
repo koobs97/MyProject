@@ -28,6 +28,9 @@ dependencies {
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 	runtimeOnly 'mysql:mysql-connector-java:8.0.25'
 
+	/* oracle */
+	runtimeOnly 'com.oracle.database.jdbc:ojdbc8'
+
 	/* spring */
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter'

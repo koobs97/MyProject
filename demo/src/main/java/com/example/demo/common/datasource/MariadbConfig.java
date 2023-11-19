@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -20,25 +21,22 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @EnableTransactionManagement
+@MapperScan(value ="com.example.demo.batch.dao", sqlSessionFactoryRef = "mariadbSqlSessionFactory")
 public class MariadbConfig {
 
-    @Bean(name = "mariadbDataSource")
-    @Primary
-    @ConfigurationProperties(prefix = "spring.mariadb-datasource")
-    public DataSource mariadbSource () {
-        return DataSourceBuilder.create().build();
-    }
-
+    @Primary //Default로 사용하고 싶은 bean에 설정
     @Bean(name = "mariadbSqlSessionFactory")
-    public SqlSessionFactory mariadbSessionFactory(@Qualifier("mariadbDataSource") DataSource dataSource, ApplicationContext ApplicationContext) throws Exception {
+    public SqlSessionFactory mariadbSessionFactory(@Qualifier("mariadbDataSource") DataSource dataSource, ApplicationContext applicationContext) throws Exception {
         
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
+        //sqlSessionFactoryBean.setConfigLocation(applicationContext.getResource("classpath:mybatis/mybatis-config.xml"));
         sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:/mapper/mariadb/**/*.xml"));
         return sqlSessionFactoryBean.getObject();
 
     }
 
+    @Primary
     @Bean(name = "mariadbSessionTemplate")
     public SqlSessionTemplate mariadbSessionTemplate(@Qualifier("mariadbSqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
         return new SqlSessionTemplate(sqlSessionFactory);

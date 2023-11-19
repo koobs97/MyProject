@@ -34,7 +34,7 @@ public class BatchController {
     @ResponseBody
     public void selectAll() throws Exception {
 
-        JobParameter jobParameter = new JobParameter(System.currentTimeMillis());
+        //JobParameter jobParameter = new JobParameter(System.currentTimeMillis());
         Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
         jobLauncher.run(jobRegistry.getJob("Batch001Job"), new JobParameters(parameters));
     }

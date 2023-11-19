@@ -5,7 +5,6 @@ import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;

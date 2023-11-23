@@ -23,4 +23,6 @@ public class Batch001DaoImpl implements Batch001Dao{
         return resutList;
     }
 
+    
+
 }

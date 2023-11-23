@@ -28,10 +28,11 @@ public class Batch001Bean {
 
     @Autowired Batch001Service batch001Service;
 
-    @Bean
+    /* Tasklet 방식 예제 */
+    @Bean(name = "TaskletSampleJob")
     public Job BatchJob(){
         return jobBuilderFactory
-            .get("Batch001Job")
+            .get("TaskletSampleJob")
             .listener(jobExecutionListener())
             .start(step1())
             .next(step2())
@@ -39,7 +40,6 @@ public class Batch001Bean {
             .build();
     }
 
-    @Bean
     public Step step1(){
         return stepBuilderFactory
             .get("step1")
@@ -53,7 +53,6 @@ public class Batch001Bean {
             .build();
     }
 
-    @Bean
     public Step step2(){
         return stepBuilderFactory
             .get("step2")
@@ -89,6 +88,5 @@ public class Batch001Bean {
         };
 
         return jobExecutionListener;
-
     }
 }

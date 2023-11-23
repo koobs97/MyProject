@@ -10,4 +10,9 @@
              , NAME
           FROM TB_USER
     </select>
+
+    <insert id="insertAll" parameterType="com.example.demo.batch.vo.Batch001Vo">
+        INSERT INTO TB_USER ( ID, NAME ) VALUES ( #{id}, #{name} )
+    </insert>
+    
 </mapper>

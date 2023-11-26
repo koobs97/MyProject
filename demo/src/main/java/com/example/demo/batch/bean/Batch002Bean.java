@@ -4,8 +4,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.batch.MyBatisBatchItemWriter;
 import org.mybatis.spring.batch.MyBatisPagingItemReader;
 import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -30,13 +28,12 @@ public class Batch002Bean {
     @Autowired
     SqlSessionFactory sqlSessionFactory;
  
-    /* Chunk 방식 예제 */
+    /* Chunk 방식 예제 - MybatisItemReader */
     @Bean(name = "ChunkSampleJob")
     public Job BatchJob(){
         return jobBuilderFactory
             .get("ChunkSampleJob")
             .start(step())
-            .listener(jobExecutionListener())
             .incrementer(new RunIdIncrementer())
             .build();
     }
@@ -68,11 +65,11 @@ public class Batch002Bean {
     public ItemProcessor<Batch001Vo, Batch001Vo> processor() {
         return new ItemProcessor<Batch001Vo, Batch001Vo>() {
             @Override
-            public Batch001Vo process (Batch001Vo model) throws Exception {
-                model.setId("9999");
-                model.setName("testname");
+            public Batch001Vo process (Batch001Vo vo) throws Exception {
+                vo.setId("9999");
+                vo.setName("testname");
 
-                return model;
+                return vo;
             }
         };
     }
@@ -85,22 +82,4 @@ public class Batch002Bean {
     	writer.setStatementId("Batch001Mapper.insertAll");
     	return writer;
     }
-
-    public JobExecutionListener jobExecutionListener() {
-        JobExecutionListener jobExecutionListener = new JobExecutionListener() {
-            
-            @Override
-            public void beforeJob(JobExecution jobExecution) {
-                // TODO wirte your before job code
-            }
-
-            @Override
-            public void afterJob(JobExecution jobExecution) {
-                // TODO wirte your after job code
-            }
-        };
-
-        return jobExecutionListener;
-    }
-
 }

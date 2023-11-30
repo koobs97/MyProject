@@ -30,7 +30,7 @@ public class Batch002Bean {
  
     /* Chunk 방식 예제 - MybatisItemReader */
     @Bean(name = "ChunkSampleJob")
-    public Job BatchJob(){
+    public Job ChunkSampleJob(){
         return jobBuilderFactory
             .get("ChunkSampleJob")
             .start(step())

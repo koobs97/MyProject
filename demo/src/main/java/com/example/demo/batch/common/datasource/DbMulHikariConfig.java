@@ -1,4 +1,4 @@
-package com.example.demo.common.datasource;
+package com.example.demo.batch.common.datasource;
 
 import javax.sql.DataSource;
 

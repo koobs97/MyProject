@@ -14,9 +14,9 @@ import org.springframework.test.context.DynamicPropertySource;
 
 
 @SpringBootTest(classes = DemoApplication.class)
-public class Batch001Test {
+public class Batch003Test {
 
-    private static String JOB_NAME = "TaskletSampleJob";
+    private static String JOB_NAME = "FlatFileJob";
 
     @Autowired
     private JobLauncher jobLauncher;
@@ -25,7 +25,7 @@ public class Batch001Test {
     private JobRegistry jobRegistry;
 
     @Autowired
-    private Job TaskletSampleJob;
+    private Job FlatFileJob;
 
     @DynamicPropertySource
     static void JobNnameProperties(DynamicPropertyRegistry registry) {
@@ -33,9 +33,9 @@ public class Batch001Test {
     }
 
     @Test
-    public void Btch001Test() throws Exception {
+    public void Btch003Test() throws Exception {
 
-        jobRegistry.register(new ReferenceJobFactory(TaskletSampleJob));
+        jobRegistry.register(new ReferenceJobFactory(FlatFileJob));
         
         JobParameters jobParameters = new JobParametersBuilder()
                 .addLong("currentTime", System.currentTimeMillis())

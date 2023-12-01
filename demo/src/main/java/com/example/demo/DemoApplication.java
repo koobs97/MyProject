@@ -23,6 +23,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * @Version 1.1.0
  * 
  */
+
 @EnableBatchProcessing	// NOTE : 배치 기능 활성화
 @EnableScheduling		// NOTE : 배치 스케줄링 기능 활성화
 @SpringBootApplication

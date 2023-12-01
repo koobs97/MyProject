@@ -32,28 +32,29 @@ public class Batch003Bean {
     SqlSessionFactory sqlSessionFactory;
  
     /* Chunk 방식 예제 - FlatFileItemReader */
-    @Bean(name = "flatFileJob")
-    public Job flatFileJob(){
+    @Bean(name = "FlatFileJob")
+    public Job FlatFileJob(){
         return jobBuilderFactory
-            .get("flatFileJob")
-            .start(filestep())
+            .get("FlatFileJob")
+            .start(Filestep())
             .incrementer(new RunIdIncrementer())
             .build();
     }
 
 
-    public Step filestep(){
+    @Bean(name = "Filestep")
+    public Step Filestep(){
         return stepBuilderFactory
-            .get("filestep")
+            .get("Filestep")
             .<Batch003Vo, Batch003Vo> chunk(5)
-            .reader(fileItemReader())
-            .writer(fileItemWriter())
+            .reader(FileItemReader())
+            .writer(FileItemWriter())
             .build();
     }
 
-    @Bean
+    @Bean(name="FileItemReader")
     @StepScope
-    public FlatFileItemReader<Batch003Vo> fileItemReader() {
+    public FlatFileItemReader<Batch003Vo> FileItemReader() {
         return new FlatFileItemReaderBuilder<Batch003Vo>()
                 .name("fileItemReader")
                 .lineTokenizer(new DelimitedLineTokenizer())
@@ -68,9 +69,9 @@ public class Batch003Bean {
                 .build();
     }
 
-    @Bean
+    @Bean(name="FileItemWriter")
     @StepScope
-    public MyBatisBatchItemWriter<Batch003Vo> fileItemWriter(){
+    public MyBatisBatchItemWriter<Batch003Vo> FileItemWriter(){
     	MyBatisBatchItemWriter<Batch003Vo> writer = new MyBatisBatchItemWriter<>();
     	writer.setSqlSessionFactory(sqlSessionFactory);
     	writer.setStatementId("Batch003Mapper.insertAll");  //파일을 읽어서 sql로 db에 저장

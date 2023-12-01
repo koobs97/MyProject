@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.example.demo.batch.vo.Batch001Vo;
+import com.example.demo.batch.vo.Batch002Vo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -41,7 +41,7 @@ public class Batch002Bean {
     public Step step(){
         return stepBuilderFactory
             .get("step")
-            .<Batch001Vo, Batch001Vo> chunk (2)
+            .<Batch002Vo, Batch002Vo> chunk (2)
             .reader(mybatisReader())
             .processor(processor())
             .writer(writer())
@@ -50,9 +50,9 @@ public class Batch002Bean {
 
     @Bean
     @StepScope
-    public MyBatisPagingItemReader<Batch001Vo> mybatisReader(){
+    public MyBatisPagingItemReader<Batch002Vo> mybatisReader(){
 
-        MyBatisPagingItemReader<Batch001Vo> reader = new MyBatisPagingItemReader<>();
+        MyBatisPagingItemReader<Batch002Vo> reader = new MyBatisPagingItemReader<>();
         reader.setPageSize(2);
         reader.setSqlSessionFactory(sqlSessionFactory);
         reader.setQueryId("Batch001Mapper.findAll");
@@ -62,10 +62,10 @@ public class Batch002Bean {
 
     @Bean
     @StepScope
-    public ItemProcessor<Batch001Vo, Batch001Vo> processor() {
-        return new ItemProcessor<Batch001Vo, Batch001Vo>() {
+    public ItemProcessor<Batch002Vo, Batch002Vo> processor() {
+        return new ItemProcessor<Batch002Vo, Batch002Vo>() {
             @Override
-            public Batch001Vo process (Batch001Vo vo) throws Exception {
+            public Batch002Vo process (Batch002Vo vo) throws Exception {
                 vo.setId("9999");
                 vo.setName("testname");
 
@@ -76,8 +76,8 @@ public class Batch002Bean {
 
     @Bean
     @StepScope
-    public MyBatisBatchItemWriter<Batch001Vo> writer(){
-    	MyBatisBatchItemWriter<Batch001Vo> writer = new MyBatisBatchItemWriter<>();
+    public MyBatisBatchItemWriter<Batch002Vo> writer(){
+    	MyBatisBatchItemWriter<Batch002Vo> writer = new MyBatisBatchItemWriter<>();
     	writer.setSqlSessionFactory(sqlSessionFactory);
     	writer.setStatementId("Batch001Mapper.insertAll");
     	return writer;

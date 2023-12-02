@@ -34,9 +34,13 @@ dependencies {
 	/* spring */
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter'
-	
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.postgresql:postgresql'
+
+	/* log */
+	implementation 'org.springframework.boot:spring-boot-starter-logging'
+    implementation 'ch.qos.logback:logback-classic:1.2.6'
+    implementation 'org.slf4j:slf4j-api:1.7.32'
 
 	/* batch */
 	implementation 'org.springframework.boot:spring-boot-starter-batch'

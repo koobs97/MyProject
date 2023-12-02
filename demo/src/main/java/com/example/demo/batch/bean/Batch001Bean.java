@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import com.example.demo.batch.common.listener.JobCommonExecutionListener;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * <h4>
@@ -34,6 +35,7 @@ import lombok.RequiredArgsConstructor;
  * 
  */
 
+ @Slf4j
 @RequiredArgsConstructor
 @Configuration
 public class Batch001Bean {
@@ -72,6 +74,10 @@ public class Batch001Bean {
                 
                 // TODO write your step code
 
+                log.info("=================");
+                log.info("step1 is executed");
+                log.info("=================");
+
                 return RepeatStatus.FINISHED;
             })
             .allowStartIfComplete(true)
@@ -84,6 +90,10 @@ public class Batch001Bean {
             .tasklet((contribution, chunckContext) -> {
                 
                 // TODO write your step code
+
+                log.info("=================");
+                log.info("step2 is executed");
+                log.info("=================");
 
                 return RepeatStatus.FINISHED;
             })

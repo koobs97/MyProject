@@ -14,6 +14,22 @@ public class JobCommonExecutionListener implements JobExecutionListener {
     public void beforeJob(JobExecution jobExecution) {
 
         SimpleDateFormat Dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        /*
+         * 배치 작업 전 수행해야 할 리스트
+         * 
+         * 1. 전처리 작업 수행
+         * 2. 파라미터 유효성 검사
+         * 3. 환경 설정 확인
+         * 4. 의존 관계 확인
+         * 5. 작업 시작 로그
+         * 6. 권한 및 보안 체크
+         */
+
+         /* 2.파라미터 유효성 검사 예시 */
+        if(jobExecution.getJobParameters().getString("baseYm") == null) {
+            throw new IllegalArgumentException("Input baseYm parameter is required.");
+        }
         
         log.info("=======================================");
         log.info("Common JobExecutionListener : beforeJob");

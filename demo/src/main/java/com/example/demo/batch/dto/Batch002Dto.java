@@ -1,9 +1,9 @@
-package com.example.demo.batch.vo;
+package com.example.demo.batch.dto;
 
 import lombok.Data;
 
 @Data
-public class Batch001Vo {
+public class Batch002Dto {
     private String id;
     private String name;
 }

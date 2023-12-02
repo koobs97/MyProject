@@ -5,25 +5,11 @@
 
 <mapper namespace="Batch001Mapper">
     
-    <select id = "findAll" resultType="com.example.demo.batch.vo.Batch001Vo">
+    <select id = "findAll" resultType="com.example.demo.batch.dto.Batch001Dto">
         SELECT /* com.example.demo.batch.vo.Batch001Mapper - findAll */
                ID
              , NAME
           FROM TB_USER
     </select>
-
-    <insert id="insertAll" parameterType="com.example.demo.batch.vo.Batch002Vo">
-        INSERT /* com.example.demo.batch.vo.Batch002Mapper - insertAll */
-          INTO TB_USER 
-             ( 
-               ID
-             , NAME 
-             ) 
-        VALUES 
-             ( 
-               #{id}
-             , #{name} 
-             )
-    </insert>
     
 </mapper>

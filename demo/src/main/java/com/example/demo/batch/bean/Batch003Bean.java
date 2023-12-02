@@ -10,14 +10,14 @@ import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
-import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 
+import com.example.demo.batch.common.properties.BatchProperties;
+import com.example.demo.batch.dto.Batch003Dto;
 import com.example.demo.batch.mapper.Batch003Mapper;
-import com.example.demo.batch.vo.Batch003Vo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,6 +30,9 @@ public class Batch003Bean {
 
     @Autowired
     SqlSessionFactory sqlSessionFactory;
+
+    BatchProperties properties  = new BatchProperties();
+    String FILE_PATH = properties.getIN_FILE_PATH();
  
     /* Chunk 방식 예제 - FlatFileItemReader */
     @Bean(name = "FlatFileJob")
@@ -46,7 +49,7 @@ public class Batch003Bean {
     public Step Filestep(){
         return stepBuilderFactory
             .get("Filestep")
-            .<Batch003Vo, Batch003Vo> chunk(5)
+            .<Batch003Dto, Batch003Dto> chunk(5)
             .reader(FileItemReader())
             .writer(FileItemWriter())
             .build();
@@ -54,25 +57,23 @@ public class Batch003Bean {
 
     @Bean(name="FileItemReader")
     @StepScope
-    public FlatFileItemReader<Batch003Vo> FileItemReader() {
-        return new FlatFileItemReaderBuilder<Batch003Vo>()
-                .name("fileItemReader")
-                .lineTokenizer(new DelimitedLineTokenizer())
-                /*
-                 * NOTE: <DelimitedLineTokenizer>
-                 * Spring Batch에서 사용되는 분할 전략 중 하나로 텍스트 기반의 파일에서 한 라이능ㄹ 필드로 분할하는데 사용된다. 
-                 */
-                .linesToSkip(1)             // 첫째 라인은 스킵
-                .fieldSetMapper(new Batch003Mapper())   // 파일에서 읽은 데이터를 vo에 저장할 클래스
-                .resource(new FileSystemResource("C:\\VSCode\\File\\sample-list.csv"))  // 읽을 파일
-                .strict(false)
+    public FlatFileItemReader<Batch003Dto> FileItemReader() {
+        return new FlatFileItemReaderBuilder<Batch003Dto>()
+                .name("FileItemReader")
+                .resource(new FileSystemResource(FILE_PATH))
+                .delimited()
+                .delimiter(",")                       // 필요에 따라 구분자 설정
+                .names("USER_ID","USER_NM","EMAIL")    // 열 이름 설정
+                .fieldSetMapper(new Batch003Mapper())           // 파일에서 읽은 데이터를 vo에 저장할 매퍼 클래스
+                .encoding("UTF-8")                     // 인코딩 설정
+                .linesToSkip(1)                     // 스킵할 라인수 지정
                 .build();
     }
 
     @Bean(name="FileItemWriter")
     @StepScope
-    public MyBatisBatchItemWriter<Batch003Vo> FileItemWriter(){
-    	MyBatisBatchItemWriter<Batch003Vo> writer = new MyBatisBatchItemWriter<>();
+    public MyBatisBatchItemWriter<Batch003Dto> FileItemWriter(){
+    	MyBatisBatchItemWriter<Batch003Dto> writer = new MyBatisBatchItemWriter<>();
     	writer.setSqlSessionFactory(sqlSessionFactory);
     	writer.setStatementId("Batch003Mapper.insertAll");  //파일을 읽어서 sql로 db에 저장
     	return writer;

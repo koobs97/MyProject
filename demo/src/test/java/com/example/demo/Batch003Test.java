@@ -8,6 +8,7 @@ import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.configuration.support.ReferenceJobFactory;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -16,7 +17,7 @@ import org.springframework.test.context.DynamicPropertySource;
 @SpringBootTest(classes = DemoApplication.class)
 public class Batch003Test {
 
-    private static String JOB_NAME = "FlatFileJob";
+    private static final String JOB_NAME = "FlatFileJob";
 
     @Autowired
     private JobLauncher jobLauncher;
@@ -25,7 +26,8 @@ public class Batch003Test {
     private JobRegistry jobRegistry;
 
     @Autowired
-    private Job FlatFileJob;
+    @Qualifier(JOB_NAME)
+    private Job job;
 
     @DynamicPropertySource
     static void JobNnameProperties(DynamicPropertyRegistry registry) {
@@ -35,7 +37,7 @@ public class Batch003Test {
     @Test
     public void Btch003Test() throws Exception {
 
-        jobRegistry.register(new ReferenceJobFactory(FlatFileJob));
+        jobRegistry.register(new ReferenceJobFactory(job));
         
         JobParameters jobParameters = new JobParametersBuilder()
                 .addLong("currentTime", System.currentTimeMillis())

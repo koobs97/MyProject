@@ -4,8 +4,8 @@
 
 <mapper namespace="Batch003Mapper">
 
-    <insert id="insertAll" parameterType="com.example.demo.batch.vo.Batch003Vo">
-        INSERT /* com.example.demo.batch.vo.Batch003Mapper - insertAll */
+    <insert id="insertAll" parameterType="com.example.demo.batch.dto.Batch003Dto">
+        INSERT /* com.example.demo.batch.mapper.Batch003Mapper - insertAll */
           INTO TB_BATCH 
              ( 
                USER_ID

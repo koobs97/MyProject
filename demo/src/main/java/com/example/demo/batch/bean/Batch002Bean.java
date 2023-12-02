@@ -14,9 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.example.demo.batch.vo.Batch002Vo;
+import com.example.demo.batch.dto.Batch002Dto;
 
 import lombok.RequiredArgsConstructor;
+
 
 @RequiredArgsConstructor
 @Configuration
@@ -41,31 +42,41 @@ public class Batch002Bean {
     public Step step(){
         return stepBuilderFactory
             .get("step")
-            .<Batch002Vo, Batch002Vo> chunk (2)
+            .<Batch002Dto, Batch002Dto> chunk (2)
             .reader(mybatisReader())
             .processor(processor())
             .writer(writer())
             .build();
     }
 
+    /**
+     * {@code MyBatisPagingItemReader} 예제
+     * 
+     * <ul>
+     * <li> 대량의 데이터를 페이징하여 처리할 수 있다.
+     * </ul>
+     * 
+     * @Type Step
+     * @Bean
+     */
     @Bean
     @StepScope
-    public MyBatisPagingItemReader<Batch002Vo> mybatisReader(){
+    public MyBatisPagingItemReader<Batch002Dto> mybatisReader(){
 
-        MyBatisPagingItemReader<Batch002Vo> reader = new MyBatisPagingItemReader<>();
-        reader.setPageSize(2);
-        reader.setSqlSessionFactory(sqlSessionFactory);
-        reader.setQueryId("Batch001Mapper.findAll");
+        MyBatisPagingItemReader<Batch002Dto> reader = new MyBatisPagingItemReader<>();
+        reader.setSqlSessionFactory(sqlSessionFactory);         // MyBatis SqlSessionFactory 설정
+        reader.setPageSize(2);                         // 한번에 읽어올 데이터의 양 설정
+        reader.setQueryId("Batch001Mapper.findAll");    // MyBatis 매퍼 XML에서 정의한 쿼리 ID
 
         return reader;
     }
 
     @Bean
     @StepScope
-    public ItemProcessor<Batch002Vo, Batch002Vo> processor() {
-        return new ItemProcessor<Batch002Vo, Batch002Vo>() {
+    public ItemProcessor<Batch002Dto, Batch002Dto> processor() {
+        return new ItemProcessor<Batch002Dto, Batch002Dto>() {
             @Override
-            public Batch002Vo process (Batch002Vo vo) throws Exception {
+            public Batch002Dto process (Batch002Dto vo) throws Exception {
                 vo.setId("9999");
                 vo.setName("testname");
 
@@ -76,8 +87,8 @@ public class Batch002Bean {
 
     @Bean
     @StepScope
-    public MyBatisBatchItemWriter<Batch002Vo> writer(){
-    	MyBatisBatchItemWriter<Batch002Vo> writer = new MyBatisBatchItemWriter<>();
+    public MyBatisBatchItemWriter<Batch002Dto> writer(){
+    	MyBatisBatchItemWriter<Batch002Dto> writer = new MyBatisBatchItemWriter<>();
     	writer.setSqlSessionFactory(sqlSessionFactory);
     	writer.setStatementId("Batch001Mapper.insertAll");
     	return writer;

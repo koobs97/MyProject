@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.example.demo.batch.common.listener.JobCommonExecutionListener;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
  *  <em> Tasklet </em> 방식의 Job 예제 구현
  * </h4>
  * <ul>
- * <li> 한 개의 Job, 3개의 Step으로 이루어진 배치 예제 작성. {@link Job} 및 {@link Step}이 흘러가는 간단한 샘플코드
+ * <li> 한 개의 Job, 2개의 Step으로 이루어진 배치 예제 작성. {@link Job} 및 {@link Step}이 흘러가는 간단한 샘플코드
  * <li> {@link JobExecutionListener}를 이용한 beforeJob, afterJob을 구현할 수 있도록 하는 샘플코드
  * <li> 배치 설정파일로 지정하기 위해 {@code @RequiredArgsConstructor}, {@code @Configuration} 어노테이션을 사용해야 한다. 
  * </ul>
@@ -43,6 +41,8 @@ public class Batch001Bean {
     @Autowired private JobBuilderFactory jobBuilderFactory;
     @Autowired private StepBuilderFactory stepBuilderFactory;
 
+    private static final String  JOB_NAME = "TaskletSampleJob";
+
     /**
      * TaskletS 방식의 Job
      * 
@@ -56,7 +56,7 @@ public class Batch001Bean {
      * @Type Job
      * @Bean name : TaskletSampleJob
      */
-    @Bean(name = "TaskletSampleJob")
+    @Bean(name = JOB_NAME)
     public Job TaskletSampleJob(){
         return jobBuilderFactory
             .get("TaskletSampleJob")
@@ -67,6 +67,8 @@ public class Batch001Bean {
             .build();
     }
 
+
+    @Bean(name = "step1")
     public Step step1(){
         return stepBuilderFactory
             .get("step1")
@@ -84,6 +86,7 @@ public class Batch001Bean {
             .build();
     }
 
+    @Bean(name = "step2")
     public Step step2(){
         return stepBuilderFactory
             .get("step2")

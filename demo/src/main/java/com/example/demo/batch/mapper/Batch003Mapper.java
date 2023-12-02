@@ -3,13 +3,13 @@ package com.example.demo.batch.mapper;
 import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.FieldSet;
 
-import com.example.demo.batch.vo.Batch003Vo;
+import com.example.demo.batch.dto.Batch003Dto;
 
-public class Batch003Mapper implements FieldSetMapper<Batch003Vo>{
+public class Batch003Mapper implements FieldSetMapper<Batch003Dto>{
     @Override
-    public Batch003Vo mapFieldSet(FieldSet fieldset) {
+    public Batch003Dto mapFieldSet(FieldSet fieldset) {
         
-        Batch003Vo vo = new Batch003Vo();
+        Batch003Dto vo = new Batch003Dto();
         
         vo.setUserId(fieldset.readString(0));
         vo.setUserNm(fieldset.readString(1));

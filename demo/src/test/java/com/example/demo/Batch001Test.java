@@ -8,6 +8,7 @@ import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.configuration.support.ReferenceJobFactory;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -16,7 +17,7 @@ import org.springframework.test.context.DynamicPropertySource;
 @SpringBootTest(classes = DemoApplication.class)
 public class Batch001Test {
 
-    private static String JOB_NAME = "TaskletSampleJob";
+    private static final String JOB_NAME = "TaskletSampleJob";
 
     @Autowired
     private JobLauncher jobLauncher;
@@ -25,7 +26,8 @@ public class Batch001Test {
     private JobRegistry jobRegistry;
 
     @Autowired
-    private Job TaskletSampleJob;
+    @Qualifier(JOB_NAME)
+    private Job job;
 
     @DynamicPropertySource
     static void JobNnameProperties(DynamicPropertyRegistry registry) {
@@ -35,7 +37,7 @@ public class Batch001Test {
     @Test
     public void Btch001Test() throws Exception {
 
-        jobRegistry.register(new ReferenceJobFactory(TaskletSampleJob));
+        jobRegistry.register(new ReferenceJobFactory(job));
         
         JobParameters jobParameters = new JobParametersBuilder()
                 .addLong("currentTime", System.currentTimeMillis())

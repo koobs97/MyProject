@@ -6,7 +6,7 @@
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
     <!-- Define properties -->
-    <property name="LOG_HOME" value="C:/VSCode/workspace"/>
+    <property name="LOG_HOME" value="C:/VSCode"/>
     <property name="LOG_PATH" value="${LOG_HOME}/batchlog"/>
 
     <!-- Define RollingFileAppender -->

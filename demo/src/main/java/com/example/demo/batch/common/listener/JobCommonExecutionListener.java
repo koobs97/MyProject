@@ -7,6 +7,23 @@ import org.springframework.batch.core.JobExecutionListener;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * <h4>
+ *  {@link JobExecutionListener} 인터페이스를 사용한 <em> JobCommonExecutionListener </em>
+ * </h4>
+ * <ul>
+ * <li> Job 실행 시 공통으로 사용할 {@code JobExecutionListener} 구현
+ * <li> {@code beforeJob}과 {@code afterJob}을 오버라이딩하여 사용한다. 
+ * <li> Job의 실행 직전과 실행 직후 처리에 대한 로직 반영
+ * </ul>
+ * 
+ * @Brief   JobExecutionListener
+ * @Author  Koo Bon Sang
+ * @Date    2023.12.02
+ * @Version 1.1.0
+ * @See 
+ * 
+ */
 @Slf4j
 public class JobCommonExecutionListener implements JobExecutionListener {
 
@@ -27,8 +44,8 @@ public class JobCommonExecutionListener implements JobExecutionListener {
          */
 
          /* 2.파라미터 유효성 검사 예시 */
-        if(jobExecution.getJobParameters().getString("baseYm") == null) {
-            throw new IllegalArgumentException("Input baseYm parameter is required.");
+        if(jobExecution.getJobParameters().getString("UserId") == null) {
+            throw new IllegalArgumentException("Input UserId parameter is required.");
         }
         
         log.info("=======================================");

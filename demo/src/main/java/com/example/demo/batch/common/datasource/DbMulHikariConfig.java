@@ -12,23 +12,21 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 /**
+ * <h4>
+ *  {@link HikariConfig} 다중 DB 연결 구현 <em> HikariCP </em>
+ * </h4>
+ * <ul>
+ * <li> HikariCP(이하 Hikari Connection Pool)라는 자바 어플리케이션에서 사용되는 고성능 JDBC 커넥션 풀 라이브러리의 설정을 관리하기 위한 클래스
+ * <li> HikariConfig를 사용하여 HikariCP의 설정을 정의하고, 이를 기반으로 {@link HikariDataSource}를 생성하여 JDBC 커넥션 풀을 관리한다. 
+ * <li> HikariCP를 사용하면 커넥션 풀의 성능이 향상되고, 애플리케이션의 확장성이 향상된다. 
+ * <li>primary 어노테이션을 사용하여 default bean으로 mariadb를 사용하도록 설정했다.
+ * </ul>
  * 
- * @brief   Configuration
- * @details 다중 DB 연결 구현(HikariCP)
- * @author  Koo Bon Sang
- * @date    2023.11.19
- * @version 1.1.0
- * 
- * @Note 다중 DB 연결 기능을 구현하기 위해서는 HikariCP를 사용해야 한다. 
- * primary 어노테이션을 사용하여 default bean으로 mariadb를 사용하도록 설정했다. 
- * HikariConfig는 자바 기반의 경량 커넥션 풀 라이브러리를 사용할 때 쓰는 설정 클래스이다. 
- * 이 클래스를 통해 데이터베이스 연결 풀의 속성들을 설정할 수 있다. 
- * 
- * == Modification Information ==
- * 
- * DATA            AUTHOR          NOTE
- * ------------    ------------    ------------
- * 2023.11.19      Koo Bon Sang    First Created
+ * @Brief   DbMulHikariConfig
+ * @Author  Koo Bon Sang
+ * @Date    2023.11.19
+ * @Version 1.1.0
+ * @See 
  * 
  */
 @Configuration

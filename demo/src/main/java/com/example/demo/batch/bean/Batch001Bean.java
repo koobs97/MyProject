@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.example.demo.batch.common.listener.JobCommonExecutionListener;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -60,7 +62,7 @@ public class Batch001Bean {
     public Job TaskletSampleJob(){
         return jobBuilderFactory
             .get("TaskletSampleJob")
-            .listener(jobExecutionListener())
+            .listener(new JobCommonExecutionListener())
             .start(step1())
             .next(step2())
             .incrementer(new RunIdIncrementer())

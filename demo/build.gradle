@@ -41,6 +41,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-logging'
     implementation 'ch.qos.logback:logback-classic:1.2.6'
     implementation 'org.slf4j:slf4j-api:1.7.32'
+	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
 
 	/* batch */
 	implementation 'org.springframework.boot:spring-boot-starter-batch'

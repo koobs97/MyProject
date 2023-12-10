@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Batch000Mapper">
+    
+    <select id="selectBfFinLedger" resultType="com.example.demo.batch.dto.Batch000Dto" parameterType="java.util.Map">
+        SELECT /* com.example.demo.batch.mapper.Batch000Mapper - selectBfFinLedger */
+               A.BASE_YM                                                                            /* 기준년월 */
+             , A.SEQ                                                                                /* 일련번호 */
+             , A.SPEND_DVCD                                                                         /* 지출구분 */
+             , A.CATEGORY                                                                           /* 카테고리 */
+             , A.SPEND_CNT                                                                          /* 지출내역 */
+             , A.SPEND_AMT                                                                          /* 지출금액 */
+             , A.SPEND_DT                                                                           /* 지출일자 */
+             , A.BANK                                                                               /* 은행 */
+             , A.ACNO                                                                               /* 계좌번호 */
+             , A.REG_NM                                                                             /* 등록자 */
+             , DATE_FORMAT(A.UPD_DT, '%y-%m-%d %H:%i:%s')                       AS REG_DT           /* 등록일시 */
+             , A.UPD_NM                                                                             /* 수정자 */
+             , DATE_FORMAT(A.UPD_DT, '%y-%m-%d %H:%i:%s')                       AS UPD_DT           /* 수정일시 */
+          FROM TB_FIN_LEDGER        A                                                               /* 가계부테이블 */
+         WHERE A.BASE_YM        =   DATE_FORMAT(DATE_SUB(STR_TO_DATE(#{baseYm}, '%Y%m%d'), INTERVAL 1 MONTH), '%Y%m')    /* 저번달 출력 */
+    </select>
+
+    <delete id="deleteFinLedger" parameterType="java.util.Map">
+        DELETE /* com.example.demo.batch.mapper.Batch000Mapper - deleteFinLedger */
+          FROM TB_FIN_LEDGER                                                                        /* 가계부테이블 */
+         WHERE BASE_YM      =   #{baseYm}                                                           /* 기준년월 */
+    </delete>
+
+    <insert id="insertFinLedger" parameterType="java.util.Map">
+        INSERT /* com.example.demo.batch.mapper.Batch000Mapper - insertFinLedger */
+          INTO TB_FIN_LEDGER                                                                        /* 가계부테이블 */
+             (
+               BASE_YM                                                                              /* 기준년월 */
+             , SEQ                                                                                  /* 일련번호 */
+             , SPEND_DVCD                                                                           /* 지출구분 */
+             , CATEGORY                                                                             /* 카테고리 */
+             , SPEND_CNT                                                                            /* 지출내역 */
+             , SPEND_AMT                                                                            /* 지출금액 */
+             , SPEND_DT                                                                             /* 지출일자 */
+             , BANK                                                                                 /* 은행 */
+             , ACNO                                                                                 /* 계좌번호 */
+             , REG_NM                                                                               /* 등록자 */
+             , REG_DT                                                                               /* 등록일시 */
+             , UPD_NM                                                                               /* 수정자 */
+             , UPD_DT                                                                               /* 수정일시 */
+             )
+        VALUES
+             (
+               #{baseYm}                                                                            /* 기준년월 */
+             , #{seq}                                                                               /* 일련번호 */
+             , #{spendDvcd}                                                                         /* 지출구분 */
+             , #{category}                                                                          /* 카테고리 */
+             , #{spendCnt}                                                                          /* 지출내역 */
+             , #{spendAmt}                                                                          /* 지출금액 */
+             , #{spendDt}                                                                           /* 지출일자 */
+             , #{bank}                                                                              /* 은행 */
+             , #{acno}                                                                              /* 계좌번호 */
+             , #{regNm}                                                                             /* 등록자 */
+             , DATE_FORMAT(CURRENT_TIMESTAMP, '%y-%m-%d %H:%i:%s')                                  /* 등록일시 */
+             , #{updNm}                                                                             /* 수정자 */
+             , DATE_FORMAT(CURRENT_TIMESTAMP, '%y-%m-%d %H:%i:%s')                                  /* 수정일시 */
+             )
+    </insert>
+    
+</mapper>

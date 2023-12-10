@@ -6,7 +6,7 @@
 <mapper namespace="Batch001Mapper">
     
     <select id = "findAll" resultType="com.example.demo.batch.dto.Batch001Dto">
-        SELECT /* com.example.demo.batch.vo.Batch001Mapper - findAll */
+        SELECT /* com.example.demo.batch.mapper.Batch001Mapper - findAll */
                ID
              , NAME
           FROM TB_USER

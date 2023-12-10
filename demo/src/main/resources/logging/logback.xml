@@ -48,18 +48,18 @@
  -->
 
     <!-- Set log levels for JDBC loggers -->
-    <logger name="jdbc" level="INFO"/>
-    <logger name="jdbc.connection" level="INFO"/>
-    <logger name="jdbc.sqlonly" level="INFO"/>
-    <logger name="jdbc.sqltiming" level="INFO"/>
-    <logger name="jdbc.audit" level="INFO"/>
-    <logger name="jdbc.resultset" level="INFO"/>
-    <logger name="jdbc.resultsettable" level="INFO"/>
+    <logger name="jdbc" level="OFF"/>
+    <logger name="jdbc.connection" level="OFF"/>
+    <logger name="jdbc.sqlonly" level="OFF"/>
+    <logger name="jdbc.sqltiming" level="DEBUG"/>
+    <logger name="jdbc.audit" level="OFF"/>
+    <logger name="jdbc.resultset" level="OFF"/>
+    <logger name="jdbc.resultsettable" level="OFF"/>
 
     <!-- Set log levels for com.example.demo in local profile -->
     <springProfile name="local">
         <logger name="com.example.demo" additivity="false">
-            <level value="INFO"/>
+            <level value="DEBUG"/>
             <appender-ref ref="CONSOLE"/>
             <appender-ref ref="ASYNC_FILE"/>
         </logger>

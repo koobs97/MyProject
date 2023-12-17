@@ -39,6 +39,7 @@ public class StepCommonExecutionListener implements StepExecutionListener {
         log.info("========================================");
         log.info("Job Name : "       + stepExecution.getJobExecution().getJobInstance().getJobName()  );
         log.info("Job Parameters : " + stepExecution.getJobExecution().getJobParameters()             );
+        log.info("=======================================");
 
         return ExitStatus.COMPLETED;
     }

@@ -1,9 +1,10 @@
-package com.example.demo.batch.mapper;
+package com.example.demo.batch.mapper.practice;
 
 import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.demo.batch.dto.Batch001Dto;
+import com.example.demo.batch.dto.practice.Batch001Dto;
 
 @Mapper
 public interface Batch001Mapper {

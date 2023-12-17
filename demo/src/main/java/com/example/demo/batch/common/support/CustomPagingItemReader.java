@@ -2,6 +2,7 @@ package com.example.demo.batch.common.support;
 
 import java.util.List;
 import java.util.Map;
+
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.batch.MyBatisPagingItemReader;
@@ -11,13 +12,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
 
-public class CorePagingItemReader<T> extends MyBatisPagingItemReader<T> {
+public class CustomPagingItemReader<T> extends MyBatisPagingItemReader<T> {
 
     @Getter
     @Setter
     private SqlSessionTemplate sqlSessionTemplate;
 
-    private CorePagingItemReader<?> corePagingItemReader;
+    private CustomPagingItemReader<?> corePagingItemReader;
 
     @SuppressWarnings("hiding")
     public <T> T selectOne(String statement) {
@@ -37,8 +38,8 @@ public class CorePagingItemReader<T> extends MyBatisPagingItemReader<T> {
         return sqlSessionTemplate.selectList(statement, parameter);
     }
 
-    public CorePagingItemReader<?> getReader(SqlSessionFactory sqlSessionFactory, SqlSessionTemplate sqlSessionTemplate) {
-        this.corePagingItemReader = new CorePagingItemReader<>();
+    public CustomPagingItemReader<?> getReader(SqlSessionFactory sqlSessionFactory, SqlSessionTemplate sqlSessionTemplate) {
+        this.corePagingItemReader = new CustomPagingItemReader<>();
         this.corePagingItemReader.setSqlSessionFactory(sqlSessionFactory);
         this.corePagingItemReader.setSqlSessionTemplate(sqlSessionTemplate);
 

@@ -1,4 +1,4 @@
-package com.example.demo.batch.bean;
+package com.example.demo.batch.bean.practice;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.batch.MyBatisBatchItemWriter;
@@ -16,8 +16,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 
 import com.example.demo.batch.common.properties.BatchProperties;
-import com.example.demo.batch.dto.Batch003Dto;
-import com.example.demo.batch.mapper.Batch003Mapper;
+import com.example.demo.batch.dto.practice.Batch003Dto;
+import com.example.demo.batch.mapper.practice.Batch003Mapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -66,7 +66,7 @@ public class Batch003Bean {
                 .names("USER_ID","USER_NM","EMAIL")    // 열 이름 설정
                 .fieldSetMapper(new Batch003Mapper())           // 파일에서 읽은 데이터를 vo에 저장할 매퍼 클래스
                 .encoding("UTF-8")                     // 인코딩 설정
-                .linesToSkip(1)                     // 스킵할 라인수 지정
+                .linesToSkip(1)                      // 스킵할 라인수 지정
                 .build();
     }
 

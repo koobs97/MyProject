@@ -1,4 +1,4 @@
-package com.example.demo.batch.dto;
+package com.example.demo.batch.dto.practice;
 
 import lombok.Data;
 

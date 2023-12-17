@@ -64,4 +64,8 @@
             <appender-ref ref="ASYNC_FILE"/>
         </logger>
     </springProfile>
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="ASYNC_FILE"/>
+    </root>
 </configuration>

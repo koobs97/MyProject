@@ -1,13 +1,14 @@
 package com.example.demo.batch.common.support;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.batch.MyBatisBatchItemWriter;
 
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
-public class CoreBatchItemWriter<T> extends MyBatisBatchItemWriter<T> {
+public class CustomBatchItemWriter<T> extends MyBatisBatchItemWriter<T> {
 
     @Getter
     @Setter

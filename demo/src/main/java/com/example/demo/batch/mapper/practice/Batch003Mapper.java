@@ -1,9 +1,9 @@
-package com.example.demo.batch.mapper;
+package com.example.demo.batch.mapper.practice;
 
 import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.FieldSet;
 
-import com.example.demo.batch.dto.Batch003Dto;
+import com.example.demo.batch.dto.practice.Batch003Dto;
 
 public class Batch003Mapper implements FieldSetMapper<Batch003Dto>{
     @Override

@@ -1,4 +1,4 @@
-package com.example.demo.batch.bean;
+package com.example.demo.batch.bean.practice;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
@@ -35,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
  * 
  */
 
- @Slf4j
+@Slf4j
 @RequiredArgsConstructor
 @Configuration
 public class Batch001Bean {

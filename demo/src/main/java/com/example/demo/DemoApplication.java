@@ -1,8 +1,12 @@
 package com.example.demo;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
@@ -27,10 +31,22 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableBatchProcessing	// NOTE : 배치 기능 활성화
 @EnableScheduling		// NOTE : 배치 스케줄링 기능 활성화
 @SpringBootApplication
+@ComponentScan(basePackages = {"com.example.demo"})
 public class DemoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		int exitCode = SpringApplication.exit(SpringApplication.run(DemoApplication.class, args));
+		System.exit(exitCode);
+	}
+
+	@Value("${spring.batch.job.names:NONE}")
+	private String jobNames;
+
+	@PostConstruct
+	public void validateJobNames() {
+		if(jobNames.isEmpty() || jobNames.equals("NONE")) {
+			throw new IllegalArgumentException("실행할 잡 이름을 입력 바랍니다.");
+		}
 	}
 
 }

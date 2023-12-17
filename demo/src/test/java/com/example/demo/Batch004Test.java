@@ -31,7 +31,7 @@ public class Batch004Test {
 
     @DynamicPropertySource
     static void JobNnameProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.batch.job.name", () -> JOB_NAME );
+        registry.add("spring.batch.job.names", () -> JOB_NAME );
     }
 
     @Test

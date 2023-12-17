@@ -1,4 +1,4 @@
-package com.example.demo.batch.bean;
+package com.example.demo.batch.bean.practice;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;

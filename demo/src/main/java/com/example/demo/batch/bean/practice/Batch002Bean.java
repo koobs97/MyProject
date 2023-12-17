@@ -1,4 +1,4 @@
-package com.example.demo.batch.bean;
+package com.example.demo.batch.bean.practice;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.batch.MyBatisBatchItemWriter;
@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.example.demo.batch.dto.Batch002Dto;
+import com.example.demo.batch.dto.practice.Batch002Dto;
 
 import lombok.RequiredArgsConstructor;
 

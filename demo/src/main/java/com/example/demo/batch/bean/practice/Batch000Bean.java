@@ -1,14 +1,9 @@
-package com.example.demo.batch.bean;
+package com.example.demo.batch.bean.practice;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.transaction.Transactional;
-
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
@@ -16,23 +11,21 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
-import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.example.demo.batch.common.listener.JobCommonExecutionListener;
 import com.example.demo.batch.common.listener.StepCommonExecutionListener;
-import com.example.demo.batch.common.support.CoreBatchItemWriter;
-import com.example.demo.batch.common.support.CorePagingItemReader;
+import com.example.demo.batch.common.support.CustomBatchItemWriter;
+import com.example.demo.batch.common.support.CustomPagingItemReader;
 import com.example.demo.batch.common.util.DateUtil;
-import com.example.demo.batch.dto.Batch000Dto;
+import com.example.demo.batch.dto.practice.Batch000Dto;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +42,7 @@ import lombok.extern.slf4j.Slf4j;
  * <li> Chunk 방식 샘플
  * <li> FILE To DB 샘플
  * <li> Tasklet의 명시적인 commit / rollback
- * </ul>
+ * </ul> 
  * 
  * @Brief   Job, Step
  * @Author  Koo Bon Sang
@@ -60,7 +53,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-public class Batch0000Bean {
+public class Batch000Bean {
     
     /************************************************************************
      * Common Area
@@ -70,34 +63,12 @@ public class Batch0000Bean {
     @Autowired private StepBuilderFactory stepBuilderFactory;
 
     @Autowired
-    @Qualifier("mariadbSqlSessionFactory")
-    private SqlSessionFactory mariadbSqlSessionFactory;
-
-    @Autowired
-    @Qualifier("oracleSqlSessionFactory")
-    private SqlSessionFactory oracleSqlSessionFactory;
-
-    @Autowired
     @Qualifier("mariadbTransactionManager")
     private PlatformTransactionManager mariadbTransactionManager;
 
     @Autowired
-    @Qualifier("oracleTransactionManager")
-    private PlatformTransactionManager oracleTransactionManager;
-
-    @Autowired
     @Qualifier("mariadbSessionTemplate")
     private SqlSessionTemplate mariadbSessionTemplate;
-
-    @Autowired
-    @Qualifier("oracleSessionTemplate")
-    private SqlSessionTemplate oracleSessionTemplate;
-
-    /* default PageSize를 1000으로 지정 */
-    private final int PAGE_SIZE = 1000;
-
-
-
 
 
 
@@ -111,15 +82,10 @@ public class Batch0000Bean {
         return jobBuilderFactory
             .get("TemplateJob")
             .listener(new JobCommonExecutionListener())     // 공통으로 사용할 JobExecutionListener
-            .incrementer(new RunIdIncrementer())
+            .incrementer(new RunIdIncrementer())            // 
             .start(StepTest1())
             .build();
     }
-
-
-
-
-
 
     @Bean(name = "StepTest1")
     public Step StepTest1(){
@@ -132,17 +98,12 @@ public class Batch0000Bean {
                 TransactionStatus status = mariadbTransactionManager.getTransaction(new DefaultTransactionDefinition());
 
                 /* Paging Reader 객체 선언 */
-                CorePagingItemReader<Batch000Dto> pagingReader = new CorePagingItemReader<>();
-                pagingReader.setSqlSessionFactory(mariadbSqlSessionFactory);
-                pagingReader.setSqlSessionTemplate(mariadbSessionTemplate);
+                CustomPagingItemReader<Batch000Dto> reader = new CustomPagingItemReader<>();
+                reader.setSqlSessionTemplate(mariadbSessionTemplate);
 
-                CoreBatchItemWriter<Batch000Dto> insertWriter = new CoreBatchItemWriter<>();
-                insertWriter.setSqlSessionFactory(mariadbSqlSessionFactory);
-                insertWriter.setSqlSessionTemplate(mariadbSessionTemplate);
+                CustomBatchItemWriter<Batch000Dto> writer = new CustomBatchItemWriter<>();
+                writer.setSqlSessionTemplate(mariadbSessionTemplate);
 
-                CoreBatchItemWriter<Batch000Dto> deletWriter = new CoreBatchItemWriter<>();
-                deletWriter.setSqlSessionFactory(mariadbSqlSessionFactory);
-                deletWriter.setSqlSessionTemplate(mariadbSessionTemplate);
 
                 try {
                     /************************************************************************
@@ -162,62 +123,32 @@ public class Batch0000Bean {
                         }
                     }
 
-                    Map<String, Object> Params = new HashMap<>();
-                    Params.put("baseYm", "20231201");
-
 
                     /****************************
                      * @2. Parameter Setting
                      ****************************/
-                    Batch000Dto pagingItem;
-                    List<Batch000Dto> pagingItems = new ArrayList<>();
-
-                    Map<String, Object> pagingParams = new HashMap<>();
-                    pagingParams.put("baseYm", "20231201");
-                    pagingReader.setParameterValues(pagingParams);
-
-                    pagingReader.setQueryId("Batch000Mapper.selectBfFinLedger");
-                    deletWriter.setStatementId("Batch000Mapper.deleteFinLedger");
-                    insertWriter.setStatementId("Batch000Mapper.insertFinLedger");
-
-                    pagingReader.open(chunckContext.getStepContext().getStepExecution().getExecutionContext());
+                    Map<String, Object> Params = new HashMap<>();
+                    Params.put("baseYm", "202312");
 
 
                     /****************************
                      * @3. Logic Code
                      ****************************/
-                    int i = 0;
-                    while((pagingItem = pagingReader.read()) != null) {
-                        if(pagingItem.getBaseYm().equals("202311")) {
-                            pagingItem.setBaseYm("202312");
-                        }
 
-                        pagingItems.add(pagingItem);
+                    List<Batch000Dto> result =  reader.selectList("Batch000Mapper.selectBfFinLedger", Params);
 
-                        if(i == 0) {
-                            deletWriter.write(pagingItems);
-                        }
-                        i++;
-                        
+
+                    if(result.size() >  0) {
+                        writer.delete("Batch000Mapper.deleteFinLedger", Params);
                     }
 
-                    insertWriter.write(pagingItems);
-                    pagingReader.close();
+                    for (Batch000Dto dto : result) {
+                        dto.setBaseYm(jobParameters.getString("baseYm"));
 
-
-
-
-                    /****************************
-                     * @4. Result Log
-                     ****************************/
-                    ExecutionContext stepContext = chunckContext.getStepContext().getStepExecution().getExecutionContext();
-                    DecimalFormat decimalFormat = new DecimalFormat("#,###");
-
-                    String Message = "배치 결과" + "\n"
-                                + "1. 초기화 " + decimalFormat.format(1200) + "건" + "\n"
-                                + "2. 저장" + decimalFormat.format(2200) + "건" + "\n";
-
-                    stepContext.put("MESSAGE", Message);
+                        writer.insert("Batch000Mapper.insertFinLedger", dto);
+                    }
+                    log.info("이월 작업 완료");
+                    
 
                     /* Commit */
                     mariadbTransactionManager.commit(status);
@@ -231,7 +162,6 @@ public class Batch0000Bean {
 
                 return RepeatStatus.FINISHED;
             })
-            .allowStartIfComplete(true)
             .build();
     }
 }

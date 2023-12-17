@@ -12,13 +12,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
 
-public class CoreCursorItemReader<T> extends MyBatisCursorItemReader<T> {
+public class CustomCursorItemReader<T> extends MyBatisCursorItemReader<T> {
     
     @Getter
     @Setter
     private SqlSessionTemplate sqlSessionTemplate;
 
-    private CoreCursorItemReader<?> coreCursorItemReader;
+    private CustomCursorItemReader<?> coreCursorItemReader;
 
     @SuppressWarnings("hiding")
     public <T> T selectOne(String statement) {
@@ -38,8 +38,8 @@ public class CoreCursorItemReader<T> extends MyBatisCursorItemReader<T> {
         return sqlSessionTemplate.selectList(statement, parameter);
     }
 
-    public CoreCursorItemReader<?> getReader(SqlSessionFactory sqlSessionFactory, SqlSessionTemplate sqlSessionTemplate) {
-        this.coreCursorItemReader = new CoreCursorItemReader<>();
+    public CustomCursorItemReader<?> getReader(SqlSessionFactory sqlSessionFactory, SqlSessionTemplate sqlSessionTemplate) {
+        this.coreCursorItemReader = new CustomCursorItemReader<>();
         this.coreCursorItemReader.setSqlSessionFactory(sqlSessionFactory);
         this.coreCursorItemReader.setSqlSessionTemplate(sqlSessionTemplate);
 

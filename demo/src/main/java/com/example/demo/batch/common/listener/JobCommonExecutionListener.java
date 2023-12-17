@@ -4,8 +4,6 @@ import java.text.SimpleDateFormat;
 
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
-import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.item.ExecutionContext;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,9 +44,9 @@ public class JobCommonExecutionListener implements JobExecutionListener {
          */
 
          /* 2.파라미터 유효성 검사 예시 */
-        if(jobExecution.getJobParameters().getString("UserId") == null) {
-            throw new IllegalArgumentException("Input UserId parameter is required.");
-        }
+        // if(jobExecution.getJobParameters().getString("UserId") == null) {
+        //     throw new IllegalArgumentException("Input UserId parameter is required.");
+        // }
 
         log.info("=======================================");
         log.info("Common JobExecutionListener : beforeJob");
@@ -81,15 +79,6 @@ public class JobCommonExecutionListener implements JobExecutionListener {
         log.info("Job End Time : "   + Dateformat.format(jobExecution.getEndTime()));
         log.info("=======================================\n\n");
 
-        StepExecution stepExecution = jobExecution.getStepExecutions().iterator().next(); // Assuming there is only one step
-        ExecutionContext stepContext = stepExecution.getExecutionContext();
-        String Message = stepContext.getString("MESSAGE");
-
-        log.info("\n");
-        log.info("======================");
-        log.info(Message);
-        log.info("======================");
-        
 
     }
     

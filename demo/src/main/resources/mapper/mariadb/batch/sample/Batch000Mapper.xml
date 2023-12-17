@@ -3,8 +3,8 @@
 
 <mapper namespace="Batch000Mapper">
     
-    <select id="selectBfFinLedger" resultType="com.example.demo.batch.dto.Batch000Dto" parameterType="java.util.Map">
-        SELECT /* com.example.demo.batch.mapper.Batch000Mapper - selectBfFinLedger */
+    <select id="selectBfFinLedger" resultType="com.example.demo.batch.dto.practice.Batch000Dto" parameterType="java.util.Map">
+        SELECT /* com.example.demo.batch.mapper.practice.Batch000Mapper - selectBfFinLedger */
                A.BASE_YM                                                                            /* 기준년월 */
              , A.SEQ                                                                                /* 일련번호 */
              , A.SPEND_DVCD                                                                         /* 지출구분 */
@@ -19,7 +19,7 @@
              , A.UPD_NM                                                                             /* 수정자 */
              , DATE_FORMAT(A.UPD_DT, '%y-%m-%d %H:%i:%s')                       AS UPD_DT           /* 수정일시 */
           FROM TB_FIN_LEDGER        A                                                               /* 가계부테이블 */
-         WHERE A.BASE_YM        =   DATE_FORMAT(DATE_SUB(STR_TO_DATE(#{baseYm}, '%Y%m%d'), INTERVAL 1 MONTH), '%Y%m')    /* 저번달 출력 */
+         WHERE A.BASE_YM        =   DATE_FORMAT(DATE_SUB(STR_TO_DATE(CONCAT(#{baseYm}, '01'), '%Y%m%d'), INTERVAL 1 MONTH), '%Y%m')    /* 저번달 출력 */
     </select>
 
     <delete id="deleteFinLedger" parameterType="java.util.Map">
